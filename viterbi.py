@@ -28,6 +28,7 @@ Y = [0,0,1,0,0,0,1,1,0,0] # observations (should be 0...k) for B's indexing to w
 N = 3
 n = len(Y)
 k = 2
+#TODO fix n vs. N problems
 
 
 ### data types declaration ###
