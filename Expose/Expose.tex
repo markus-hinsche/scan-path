@@ -1,58 +1,177 @@
 \documentclass[
         a4paper,     % Format A4
-        titlepage,   % mit Titelseite
-        twoside,     % zweiseitig
+        %titlepage,   % mit Titelseite
+        %twoside,     % zweiseitig
         parskip      % mit Durchschuss
-                                 % (= Abstand zwischen Abs�tzen, statt Einr�ckung)
+                                 % (= Abstand zwischen Absätzen, statt Einrückung)
         ]{scrartcl} % KOMA-Script Grundklasse     texdoc scrguide
 
-\usepackage{ngerman}              % Deutsche Sprache, neue RS   texdoc germdoc (?)
+%\usepackage{ngerman}              % Deutsche Sprache, neue RS   texdoc germdoc (?)
 \usepackage[T1]{fontenc}          % Schriftkodierung mit Umlauten
 \usepackage{textcomp,amsmath}     % Mathezeichen etc.
 \usepackage{graphicx}             % Graphiken einbinden
 
 % bibtex
 \usepackage{url}
-\bibliographystyle{plaindin}      % BibTeX Styles nach Norm DIN 1505
+\bibliographystyle{alpha}      % BibTeX Styles nach Norm DIN 1505
+
 
 \titlehead{
-\includegraphics{hpi_logo_cmyk_wb_sl2}
-} \subject{Masterarbeit}
-\title{<Titel>}
-\author{<Autor>\\{\small{\url{<mail-Adresse des Autors>}}}}
-\date{Eingereicht am <Einreichungsdatum>}
-\publishers{Betreuung: <Betreuer>}
+%\includegraphics{hpi_logo_cmyk_wb_sl2}
+} \subject{Exposé of the Master's thesis}
+\title{Scanpath Comparison for Visual Search Analysis}
+\author{Markus Hinsche\\{\small{\url{markus.hinsche@student.hpi.uni-potsdam.de}}}}
+\date{Exposé submitted at: \today}
+\publishers{Supervision: Dr. Gjergji Kasneci}
 
+%\pagestyle{headings}    % Seitenstil mit Kapitelüberschriften in der Kopfzeile
 
-\pagestyle{headings}    % Seitenstil mit Kapitel�berschriften in der Kopfzeile
-
+%%%% spelling and grammar %%%%
+% scanpath together as in Kasneci's papers
+% data is plural
 
 \begin{document}
-
   \maketitle    %  Titelseite erzeugen
+  %\cleardoublepage % neue Doppelseite
+
+\newcommand{\itemsepsize}{-10pt}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  \section{Motivation}
+
+The understanding of the human visual perception is crucial for many applications in daily life and furthermore to understand cognitive processes in the human mind. 
+Therefore, there is a great interest in understanding visual processes of a single user and being able to compare visual processes of different users. 
+In many applications, users have to perform visual search with their eyes, e.g. when looking for information on a web page, when making tea in the kitchen, or when looking for obstacles while driving. 
+Knowing a user's search patterns while driving, he could be given advice on how to improve his visual processes, ultimately aiming for less accidents. 
+% other applications
+% - given an art peace, where do people look - do they get the "idea" aka. intension, that the artist wanted to convey?
+        
+The thesis addresses the comparison of the visual search patterns of different users. It also tries to categorize users into groups based on these patterns.  
 
 
-  \cleardoublepage % neue Doppelseite
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  \section{Scanpath Comparison - Context}
+
+% eye tracking, Data % Problemstellung
+An eye tracker is used to records the user's visual search patterns. It takes the coordinates, which represent the visual process in a very detailed fashion, but cannot be directly used to compare visual patterns. 
+
+% Definition Fixation, Saccade, Scanpath
+The human's visual patterns consist of two different things: \emph{fixations} and \emph{saccades}. During a fixation the eyes are fixed on a certain point and the human is able to get a sharp image of what he is looking at. Saccades in contrast are fast movements of both eyes into a certain direction. During a saccade a user does not perceives a clear image. % saccadic masking
+A distinct eye movement pattern consisting of a sequence of fixations and saccades is called a scanpath. % http://medical-dictionary.thefreedictionary.com/scan+path
+  
+% context = related work?  
+% Sequence learning basics??
+% introduce string-edit method  
+  
+% bridge  
+One idea to represent a scan path in an abstract way are sequential data models.   
+% machine learning
+These models have been applied successfully in other domains, such as on-line handwriting recognition \cite{nag1986script}. They use a hidden Markov model\,(HMM) to recognize character sequences. 
+% how does HMM work?
+HMMs are well suited to describe sequential characteristics of a process. They consist of a layer of unobserved\,(hidden) states, where each state is only dependent on its predecessor. 
+Furthermore, there is a layer of observations where each observation belongs to a state and is conditionally independent from all the other states given this state.
+% Viterbi
+The Viterbi algorithm can be used to find the most likely sequence of hidden states for an HMM, which can be latent. %, which means that we do not know what they stand for exactly, but they are crucial for the model. 
 
 
 
-  % Und: Text \dots
-  \section{Einleitung}
-
-    \cite{vossen94datenmodelle}
-
-    \cite{ullman83principles}
-
-    \subsection{Foo, Bar}
-
-    \cite{agrawal94fast}
-
-    \cite{bloom70space-time}
+%- SVD
+%    - explain, latent topics
+%    - does not consider sequence/order
+%In the thesis other unsupervised machine learning methods will be examined and it will be analyzed why they are adequate to model the problem or not. 
 
 
+  
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  \section{Related work}
+%frühere? wie im dewhurst paper?
 
-    % Inhaltsverzeichnis
-    \clearpage % auf neuer Seite
-    \bibliography{referenzen}
+For the comparison of scanpaths, \emph{SubsMatch} \cite{SubsMatch} is based on a string representation of a scanpath with equi-probabilistic data slices assigned to each letter. The similarity is defined based on the frequency of subsequences.  
+As mentioned before, the sequence (order) of the scanpath's elements is very important, but not dealt with by SubsMatch. 
+
+There has only been few research about considering the sequencial nature of scanpaths yet, the most important are \emph{MultiMatch} \cite{dewhurst2012depends} and \emph{ScanMatch} \cite{CristinoEtAl2010}.
+These algorithms consider regions of interest (ROI) and create a string sequence from them to compare scanpaths. 
+When it comes to sequential data models, there has not work done yet. 
+
+  
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  \section{Goals}
+  
+  % Comparision of scanpaths:
+This thesis will examine differences between scanpaths of various users. 
+It transforms the coordinates into a higher level representation, that shows visual patterns more concisely.
+There are various dimensions of the comparison \cite{dewhurst2012depends}, which have to be considered to find a good representation of the data:
+\begin{itemize} \itemsep \itemsepsize
+    \item Sequence: The order of fixation and saccade patterns.  %- should be represented by the markov approach
+    \item Position: The location of fixation and saccades in x, y space.  % - 5 areas in screen
+    \item Shape: The length and direction saccades, and the proportional relationships between them.
+    \item Duration: The amount of time that a fixation lasts before another saccade is performed.
+    %\item Length: The distance from one fixation position to the next, that are separated by a saccade. 
+    %\item Direction: The angle, in which the saccades are performed, relative to the room's coordinate system.
+\end{itemize}
+ 
+Ideally we consider all these dimensions. Each of them might give some inside about the visual behaviors of the user.  
+% extension of HMM
+The HMM is a model that performs well for many use-cases that try to model sequential data, however we can consider more general graphical models to describe the sequential nature on a more abstract level.   
+
+%    - hypothesis: different users have different vision processes -> Goal?
+%    - if so, we could distinguish between them
+%    - featureX is important
+  
+%- find out something about the users
+%    - groups
+%    - mistakes that they make / that occur frequently
+
+
+% scope of the thesis
+% - bla
+
+The thesis' algorithm consists of several steps: %(similar to what \cite{CristinoEtAl2010} does, but algorithm is more complex)
+\begin{enumerate} \itemsep \itemsepsize
+    \item Load data and visualize scanpaths.
+    \item Define parameters for the data transformation. 
+    \item Transform data to sequence, e.g. by using the more abstract states of a sequential model. %(the "meat")
+    \item Compare two sequences (as done by \cite{CristinoEtAl2010} with Needleman-Wunsch algorithm \cite{needleman1970general}) and output a score.
+    \item Testing/debugging possibility, if similarity scores are about right through spacial noise (as done in experiment 1 in \cite{dewhurst2012depends}). 
+\end{enumerate}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  \section{Evaluation and Data}
+  
+  %TODO: andere evals lesen (kübler, )
+  %-scanmatch - experiments -   
+  
+%Problem
+This thesis aims to provide an algorithm which predicts if two scanpaths are similar. 
+To evaluate the performance of our algorithm, we need to have some pairs of scanpaths where we are given the information, if they are similar. 
+% Groups
+There is a data set where we have pairs of scanpath with a binary label, indicating that the two scanpaths are similar or different.  
+% Example data where we have groups given
+For other points, we do not have these labels, however, we can make use of group affiliations. Assuming that the similarity within the group is higher than the similarity across groups, treat users of the same group as similar, whereas users of different groups can be considered to have different scanpath.
+
+Here are some examples where we can make use of groups affiliation in our given data:
+\begin{itemize} \itemsep \itemsepsize
+% 1st example
+\item Art experts and art non-professionals look at a painting. We know that they have different visual processes 
+% 2nd example
+\item A group of healthy patients and a group of glaucoma patients performs a driving task in a simulated scenario (data as used by \cite{SubsMatch}). 
+We can again split the users into groups, namely those, who have an impaired vision condition and the healthy control group. We can also split between the users into two groups on the basis of test passing or test failure. 
+% 3rd example
+\item Whenever we are given sequences with the same person performing the same task, because it was executed multiple times or we sample sequence parts of a larger sequence, we can also think of this as a group.
+\end{itemize}
+  
+In the end we have to find a decision threshold, e.g. using precision-recall curves or ROC-curves. We can then report the optimal setting for precision, recall and F-measure and compare it against other approaches. 
+
+The thesis will evaluate the presented methods in terms of computational expense, however the focus is on performance. 
+Currently, the best method for scanpath comparison is the ScanMatch algorithm \cite{CristinoEtAl2010}. We can compare our results with it. There is a Matlab implementation of the algorithm available\footnote{http://seis.bris.ac.uk/~psidg/ScanMatch/, accessed May, 19th 2014}.
+
+%- Neural Network - that learns identity
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Summary}
+Visual search processes can be represented as scanpath, a sequence consisting of fixations and saccades. This thesis aims to compare scanpaths of different users and to categorize users accordingly. This will be done by applying machine learning models to model the visual processes and compare it against state-of-the-art methods. Sequence information will be taken into consideration. 
+
+%\clearpage % auf neuer Seite
+    \bibliography{abbreviations, referenzen}
 
 \end{document}
